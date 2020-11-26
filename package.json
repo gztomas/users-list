@@ -5,9 +5,9 @@
   "description": "Users list app",
   "main": "index.js",
   "scripts": {
-    "postinstall": "bash amplify.sh",
+    "vercel": "bash amplify.sh && npm run build",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "test": "npm test"
   },
