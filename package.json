@@ -5,6 +5,7 @@
   "description": "Users list app",
   "main": "index.js",
   "scripts": {
+    "prebuild": "amplify env checkout dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
