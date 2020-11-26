@@ -5,7 +5,7 @@
   "description": "Users list app",
   "main": "index.js",
   "scripts": {
-    "prebuild": "amplify env checkout dev",
+    "postinstall": "amplify env checkout dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.9",
+    "@aws-amplify/cli": "^4.36.0",
     "@emotion/react": "^11.1.1",
     "@emotion/styled": "^11.0.0",
     "@types/node": "^14.14.10",
