@@ -11,10 +11,9 @@ import aws_config from "./aws-exports";
 
 let apolloClient: ReturnType<typeof createClient>;
 
-const mergeListUsersQuery: FieldMergeFunction<ListUsersQuery["listUsers"]> = (
-  existing,
-  incoming
-) => ({
+const mergeListUsersQuery: FieldMergeFunction<
+  Partial<ListUsersQuery["listUsers"]>
+> = (existing, incoming) => ({
   ...existing,
   ...incoming,
   items: [...(existing?.items ?? []), ...(incoming?.items ?? [])],
