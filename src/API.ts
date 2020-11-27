@@ -107,6 +107,75 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type SearchableUserFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  name?: SearchableStringFilterInput | null,
+  dob?: SearchableStringFilterInput | null,
+  address?: SearchableStringFilterInput | null,
+  description?: SearchableStringFilterInput | null,
+  createdAt?: SearchableStringFilterInput | null,
+  updatedAt?: SearchableStringFilterInput | null,
+  and?: Array< SearchableUserFilterInput | null > | null,
+  or?: Array< SearchableUserFilterInput | null > | null,
+  not?: SearchableUserFilterInput | null,
+};
+
+export type SearchableIDFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+  range?: Array< string | null > | null,
+};
+
+export type SearchableStringFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+  range?: Array< string | null > | null,
+};
+
+export type SearchableUserSortInput = {
+  field?: SearchableUserSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableUserSortableFields {
+  id = "id",
+  name = "name",
+  dob = "dob",
+  address = "address",
+  description = "description",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
+
+
+export enum SearchableSortDirection {
+  asc = "asc",
+  desc = "desc",
+}
+
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -198,6 +267,32 @@ export type ListUsersQuery = {
       updatedAt: string,
     } | null > | null,
     nextToken: string | null,
+  } | null,
+};
+
+export type SearchUsersQueryVariables = {
+  filter?: SearchableUserFilterInput | null,
+  sort?: SearchableUserSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  from?: number | null,
+};
+
+export type SearchUsersQuery = {
+  searchUsers:  {
+    __typename: "SearchableUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      name: string,
+      dob: string | null,
+      address: string | null,
+      description: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+    total: number | null,
   } | null,
 };
 
