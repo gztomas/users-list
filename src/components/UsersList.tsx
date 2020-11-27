@@ -5,10 +5,13 @@ import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
 import { Card, CardContent, CardSubtitle, CardTitle } from "./system/Card";
 import { Input } from "./system/Input";
+import { Modal, ModalBackdrop } from "./system/Modal";
 
 export const UsersList = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [selected, setSelected] = React.useState<{ id: string } | null>(null);
   const { users, loadMore } = useUsers(searchTerm);
+  const showModal = Boolean(selected);
   return (
     <>
       <Header>
@@ -23,10 +26,7 @@ export const UsersList = () => {
         {users?.items
           ?.filter((user) => user?.name.includes(searchTerm))
           .map((user) => (
-            <Card
-              key={user?.id}
-              href="https://github.com/vercel/next.js/tree/master/examples"
-            >
+            <Card key={user?.id} onClick={() => setSelected(user)}>
               <Avatar />
               <CardContent>
                 <CardTitle>{user?.name}</CardTitle>
@@ -36,6 +36,8 @@ export const UsersList = () => {
           ))}
       </Grid>
       <Button onClick={loadMore}>Load more</Button>
+      {showModal && <ModalBackdrop onClick={() => setSelected(null)} />}
+      {showModal && <Modal />}
     </>
   );
 };
