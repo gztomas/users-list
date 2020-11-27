@@ -1,7 +1,8 @@
-import { css, Global } from "@emotion/react";
+import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import Head from "next/head";
-import { Gallery } from "../src/components/Gallery";
+import { globalStyles } from "../src/components/system/theme";
+import { UsersList } from "../src/components/UsersList";
 
 const Home = () => (
   <Page>
@@ -9,56 +10,33 @@ const Home = () => (
     <Head>
       <title>Users List</title>
       <link rel="icon" href="/favicon.ico" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
+        rel="stylesheet"
+      />
     </Head>
     <Main>
-      <Title>Users list</Title>
-      <Gallery />
+      <UsersList />
     </Main>
   </Page>
 );
 
-const globalStyles = css`
-  html,
-  body {
-    padding: 0;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 7px 0;
 `;
 
 const Main = styled.main`
-  padding: 5rem 0;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const Page = styled.div`
-  min-height: 100vh;
-  padding: 0 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Title = styled.h1`
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
-  text-align: center;
+  margin: 11rem 0;
+  max-width: 83rem;
 `;
 
 export default Home;
