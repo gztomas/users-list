@@ -14,13 +14,11 @@ let apolloClient: ReturnType<typeof createClient>;
 const mergeListUsersQuery: FieldMergeFunction<ListUsersQuery["listUsers"]> = (
   existing,
   incoming
-) => {
-  return {
-    ...existing,
-    ...incoming,
-    items: [...(existing?.items ?? []), ...(incoming?.items ?? [])],
-  };
-};
+) => ({
+  ...existing,
+  ...incoming,
+  items: [...(existing?.items ?? []), ...(incoming?.items ?? [])],
+});
 
 const createClient = () =>
   new ApolloClient({

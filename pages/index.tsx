@@ -1,6 +1,7 @@
 import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import Head from "next/head";
+import * as React from "react";
 import { globalStyles } from "../src/components/system/theme";
 import { UsersList } from "../src/components/UsersList";
 

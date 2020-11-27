@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import * as React from "react";
 import { useUsers } from "../domain/useUsers";
 import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
@@ -7,7 +7,7 @@ import { Card, CardContent, CardSubtitle, CardTitle } from "./system/Card";
 import { Input } from "./system/Input";
 
 export const UsersList = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = React.useState("");
   const { users, loadMore } = useUsers(searchTerm);
   return (
     <>
