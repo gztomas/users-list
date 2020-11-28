@@ -34,7 +34,10 @@ export const UsersList = () => {
           .map((user) => (
             <UserCard key={user?.id} onClick={() => setSelected(user)}>
               <CardIcon />
-              <Avatar />
+              <Avatar
+                src={`https://source.unsplash.com/126x126/?portrait,${user?.id ??
+                  ""}`}
+              />
               <CardContent>
                 <CardTitle>{user?.name}</CardTitle>
                 <CardSubtitle>{user?.description}</CardSubtitle>
@@ -44,7 +47,11 @@ export const UsersList = () => {
       </Grid>
       <Button onClick={loadMore}>Load more</Button>
       {selected && (
-        <UserEditor user={selected} onClose={() => setSelected(null)} />
+        <UserEditor
+          key={selected.id}
+          user={selected}
+          onClose={() => setSelected(null)}
+        />
       )}
     </>
   );
@@ -76,7 +83,8 @@ const CardIcon = styled(EditIcon)`
 
 const UserCard = styled(Card)`
   position: relative;
-  :hover {
+  :hover,
+  :focus {
     svg {
       opacity: 1;
     }

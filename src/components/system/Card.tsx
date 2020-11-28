@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Card = styled.a`
+export const Card = styled.button`
   align-items: center;
   background-color: ${({ theme }) => theme.color.bgPrimary};
   border-radius: 10px;
@@ -18,10 +18,12 @@ export const Card = styled.a`
   transition: box-shadow 0.3s ease-in-out;
   width: 25rem;
 
-  &:hover,
-  &:focus {
-    outline: none;
+  :hover {
     box-shadow: 0px 4px 10px ${(props) => props.theme.color.divider};
+  }
+  :focus {
+    outline: none;
+    box-shadow: 0 0 0 4px ${({ theme }) => theme.color.focus};
   }
 `;
 

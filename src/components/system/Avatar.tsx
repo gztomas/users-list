@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Avatar = styled.div`
+export const Avatar = styled.img`
   background-color: ${({ theme }) => theme.color.secondary};
   border-radius: 50%;
   height: 10.5rem;
