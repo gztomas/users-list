@@ -10,6 +10,15 @@ export const Modal = styled.div`
   padding: 4rem;
 `;
 
+export const ModalContent = styled.div`
+  display: flex;
+  margin: 5rem 0;
+
+  & > * + * {
+    margin-left: 2.25rem;
+  }
+`;
+
 export const ModalFooter = styled.div`
   display: flex;
   justify-content: flex-end;
