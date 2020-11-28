@@ -29,7 +29,7 @@ export const UserEditor = ({
 }) => {
   const [userEdit, setUserEdit] = React.useState(user);
   const { name, address, description } = userEdit;
-  const mapboxRef = useMapbox();
+  const mapboxRef = useMapbox(address);
 
   const createChangeHandler = (field: keyof Omit<UserEdit, "id">) => (
     e: React.ChangeEvent<HTMLInputElement>
