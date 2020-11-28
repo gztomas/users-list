@@ -15,15 +15,20 @@ export const Input = styled.input`
   transition: border 0.3s ease-in-out;
   width: 25rem;
 
-  :hover {
+  :hover:not(:disabled) {
     border-color: ${({ theme }) => theme.color.hover};
   }
-  :focus {
+  :focus:not(:disabled) {
     outline: none;
     border-color: ${({ theme }) => theme.color.focus};
   }
   :invalid {
     border-color: ${({ theme }) => theme.color.error};
+  }
+  :disabled {
+    cursor: not-allowed;
+    color: ${({ theme }) => theme.color.secondary};
+    background-color: ${({ theme }) => theme.color.bgHaze};
   }
   ::placeholder {
     color: ${({ theme }) => theme.color.secondary};

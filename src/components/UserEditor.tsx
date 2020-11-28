@@ -36,9 +36,10 @@ export const UserEditor = ({
   const [pristine, setPristine] = React.useState(true);
   const { name, address, description } = userEdit;
   const mapboxRef = useMapbox(address);
-  const [update] = useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
-    gql(updateUser)
-  );
+  const [update, { loading }] = useMutation<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >(gql(updateUser));
   useModalShortcuts({ onClose });
 
   const createChangeHandler = (field: EditableField) => (
@@ -68,6 +69,7 @@ export const UserEditor = ({
               Name
               <Input
                 required
+                disabled={loading}
                 autoFocus
                 placeholder="John Doe"
                 value={name}
@@ -78,6 +80,7 @@ export const UserEditor = ({
               Address
               <Input
                 value={address ?? ""}
+                disabled={loading}
                 placeholder="Street, city, country"
                 onChange={createChangeHandler("address")}
               />
@@ -86,6 +89,7 @@ export const UserEditor = ({
               Description
               <Input
                 value={description ?? ""}
+                disabled={loading}
                 placeholder="Interests, roles, facts"
                 onChange={createChangeHandler("description")}
               />
@@ -93,10 +97,16 @@ export const UserEditor = ({
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button type="submit" form="user-editor-form" disabled={pristine}>
-            Save
+          <Button
+            type="submit"
+            form="user-editor-form"
+            disabled={pristine || loading}
+          >
+            {loading ? "Saving..." : "Save"}
           </Button>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose} $variant="secondary" disabled={loading}>
+            Cancel
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
