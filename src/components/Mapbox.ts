@@ -29,6 +29,9 @@ export const Mapbox = styled.div`
   canvas {
     outline: none;
   }
+  .mapboxgl-ctrl-attrib {
+    display: none;
+  }
 `;
 
 export const useMapbox = (query: string | null) => {
