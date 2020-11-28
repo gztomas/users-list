@@ -52,12 +52,13 @@ export const globalStyles = css`
     font-size: 1.3125rem;
     font-weight: 600;
     line-height: 1.625rem;
-    margin: 0;
+    margin: 0 0 0.5rem 0;
   }
   p {
     font-size: 1rem;
     font-weight: 300;
     line-height: 1.256875rem;
+    margin: 0;
   }
   a {
     color: inherit;
