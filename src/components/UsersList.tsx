@@ -18,6 +18,11 @@ export const UsersList = () => {
   } | null>(null);
   const { users, loadMore } = useUsersList(searchTerm);
 
+  const skeletonItems = Array<null>(6).fill(null);
+  const items =
+    users?.items?.filter((user) => !user || user?.name.includes(searchTerm)) ??
+    skeletonItems;
+
   return (
     <>
       <Header>
@@ -29,21 +34,22 @@ export const UsersList = () => {
         />
       </Header>
       <Grid>
-        {users?.items
-          ?.filter((user) => user?.name.includes(searchTerm))
-          .map((user) => (
-            <UserCard key={user?.id} onClick={() => setSelected(user)}>
-              <CardIcon />
-              <Avatar
-                src={`https://source.unsplash.com/126x126/?portrait,${user?.id ??
-                  ""}`}
-              />
-              <CardContent>
-                <CardTitle>{user?.name}</CardTitle>
-                <CardSubtitle>{user?.description}</CardSubtitle>
-              </CardContent>
-            </UserCard>
-          ))}
+        {items.map((item, i) => (
+          <UserCard key={item?.id ?? i} onClick={() => setSelected(item)}>
+            <CardIcon />
+            <Avatar
+              src={
+                item?.id
+                  ? `https://source.unsplash.com/126x126/?portrait,${item.id}`
+                  : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              }
+            />
+            <CardContent>
+              <CardTitle>{item?.name}</CardTitle>
+              <CardSubtitle>{item?.description}</CardSubtitle>
+            </CardContent>
+          </UserCard>
+        ))}
       </Grid>
       <Button onClick={loadMore}>Load more</Button>
       {selected && (

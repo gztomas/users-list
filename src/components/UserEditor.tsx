@@ -68,30 +68,30 @@ export const UserEditor = ({
             <Label>
               Name
               <Input
-                required
-                disabled={loading}
                 autoFocus
-                placeholder="John Doe"
-                value={name}
+                disabled={loading}
                 onChange={createChangeHandler("name")}
+                placeholder="John Doe"
+                required
+                value={name}
               />
             </Label>
             <Label>
               Address
               <Input
-                value={address ?? ""}
                 disabled={loading}
-                placeholder="Street, city, country"
                 onChange={createChangeHandler("address")}
+                placeholder="Street, city, country"
+                value={address ?? ""}
               />
             </Label>
             <Label>
               Description
               <Input
-                value={description ?? ""}
                 disabled={loading}
-                placeholder="Interests, roles, facts"
                 onChange={createChangeHandler("description")}
+                placeholder="Interests, roles, facts"
+                value={description ?? ""}
               />
             </Label>
           </Form>
