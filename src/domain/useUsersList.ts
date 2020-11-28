@@ -13,6 +13,7 @@ export const useUsersList = (match: string) => {
     data: searchData,
     fetchMore: fetchMoreSearch,
     loading: searchLoading,
+    error: searchError,
   } = useQuery<SearchUsersQuery, SearchUsersQueryVariables>(gql(searchUsers), {
     notifyOnNetworkStatusChange: true,
     skip: !match,
@@ -23,6 +24,7 @@ export const useUsersList = (match: string) => {
     data: listData,
     fetchMore: fetchMoreList,
     loading: listLoading,
+    error: listError,
   } = useQuery<ListUsersQuery, ListUsersQueryVariables>(gql(listUsers), {
     notifyOnNetworkStatusChange: true,
     skip: Boolean(match),
@@ -37,6 +39,7 @@ export const useUsersList = (match: string) => {
   return {
     users: usersRef.current,
     loading: searchLoading || listLoading,
+    error: searchError ?? listError,
     loadMore: () =>
       fetchMore({
         variables: { nextToken: usersRef.current?.nextToken },

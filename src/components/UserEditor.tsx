@@ -36,7 +36,7 @@ export const UserEditor = ({
   const [pristine, setPristine] = React.useState(true);
   const { name, address, description } = userEdit;
   const mapboxRef = useMapbox(address);
-  const [update, { loading }] = useMutation<
+  const [update, { loading, error }] = useMutation<
     UpdateUserMutation,
     UpdateUserMutationVariables
   >(gql(updateUser));
@@ -101,6 +101,7 @@ export const UserEditor = ({
             type="submit"
             form="user-editor-form"
             disabled={pristine || loading}
+            $error={Boolean(error)}
           >
             {loading ? "Saving..." : "Save"}
           </Button>

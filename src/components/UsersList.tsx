@@ -16,7 +16,7 @@ export const UsersList = () => {
     address: string | null;
     description: string | null;
   } | null>(null);
-  const { users, loadMore, loading } = useUsersList(searchTerm);
+  const { users, loadMore, loading, error } = useUsersList(searchTerm);
 
   const skeletonItems = Array<null>(6).fill(null);
   const items =
@@ -56,7 +56,11 @@ export const UsersList = () => {
           </UserCard>
         ))}
       </Grid>
-      <Button onClick={handleLoadMore} disabled={loading}>
+      <Button
+        onClick={handleLoadMore}
+        disabled={loading}
+        $error={Boolean(error)}
+      >
         {loading ? "Loading..." : "Load more"}
       </Button>
       {selected && (
