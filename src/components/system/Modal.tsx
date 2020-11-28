@@ -3,10 +3,20 @@ import styled from "@emotion/styled";
 export const Modal = styled.div`
   background-color: ${({ theme }) => theme.color.bgHaze};
   border-radius: 8px;
-  height: 45rem;
+  min-height: 40rem;
   position: absolute;
   top: 19.21875rem;
   width: 83rem;
+  padding: 4rem;
+`;
+
+export const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  & > * + * {
+    margin-left: 4rem;
+  }
 `;
 
 export const ModalBackdrop = styled.div`
