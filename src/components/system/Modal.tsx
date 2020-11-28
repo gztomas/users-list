@@ -13,6 +13,7 @@ export const ModalBackdrop = styled.div`
   background-color: ${({ theme }) => theme.color.bgContrast};
   inset: 0;
   position: fixed;
+  animation: fade-in 0.1s ease-in-out;
 `;
 
 export const ModalContent = styled.div`
@@ -22,6 +23,7 @@ export const ModalContent = styled.div`
   padding: 4rem;
   position: absolute;
   width: 83rem;
+  animation: appear 0.3s ease-in-out;
 `;
 
 export const ModalBody = styled.div`

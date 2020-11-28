@@ -63,4 +63,20 @@ export const globalStyles = css`
     color: inherit;
     text-decoration: none;
   }
+  @keyframes appear {
+    0% {
+      transform: translateY(1rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
