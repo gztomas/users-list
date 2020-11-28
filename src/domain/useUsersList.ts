@@ -8,7 +8,7 @@ import {
 } from "../API";
 import { listUsers, searchUsers } from "../graphql/queries";
 
-export const useUsers = (match: string) => {
+export const useUsersList = (match: string) => {
   const { data: searchData, fetchMore: fetchMoreSearch } = useQuery<
     SearchUsersQuery,
     SearchUsersQueryVariables

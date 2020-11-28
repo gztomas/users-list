@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import * as React from "react";
-import { useUsers } from "../domain/useUsers";
+import { useUsersList } from "../domain/useUsersList";
 import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
 import { Card, CardContent, CardSubtitle, CardTitle } from "./system/Card";
@@ -15,7 +15,7 @@ export const UsersList = () => {
     address: string | null;
     description: string | null;
   } | null>(null);
-  const { users, loadMore } = useUsers(searchTerm);
+  const { users, loadMore } = useUsersList(searchTerm);
 
   return (
     <>
@@ -42,11 +42,7 @@ export const UsersList = () => {
       </Grid>
       <Button onClick={loadMore}>Load more</Button>
       {selected && (
-        <UserEditor
-          onClose={() => setSelected(null)}
-          onSave={() => {}}
-          user={selected}
-        />
+        <UserEditor user={selected} onClose={() => setSelected(null)} />
       )}
     </>
   );

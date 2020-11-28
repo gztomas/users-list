@@ -1,4 +1,7 @@
+import { gql, useMutation } from "@apollo/client";
 import * as React from "react";
+import { UpdateUserMutation, UpdateUserMutationVariables } from "../API";
+import { updateUser } from "../graphql/mutations";
 import { Mapbox, useMapbox } from "./Mapbox";
 import { Button } from "./system/Button";
 import { Form } from "./system/Form";
@@ -7,8 +10,10 @@ import { Label } from "./system/Label";
 import {
   Modal,
   ModalBackdrop,
+  ModalBody,
   ModalContent,
   ModalFooter,
+  useModalShortcuts,
 } from "./system/Modal";
 
 type UserEdit = {
@@ -18,45 +23,62 @@ type UserEdit = {
   description: string | null;
 };
 
+type EditableField = keyof Omit<UserEdit, "id">;
+
 export const UserEditor = ({
   user,
-  onSave,
   onClose,
 }: {
   user: UserEdit;
-  onSave: (value: UserEdit) => void;
   onClose: () => void;
 }) => {
   const [userEdit, setUserEdit] = React.useState(user);
+  const [pristine, setPristine] = React.useState(true);
   const { name, address, description } = userEdit;
   const mapboxRef = useMapbox(address);
+  const [update] = useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    gql(updateUser)
+  );
+  useModalShortcuts({ onClose });
 
-  const createChangeHandler = (field: keyof Omit<UserEdit, "id">) => (
+  const createChangeHandler = (field: EditableField) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    setPristine(false);
     setUserEdit({ ...userEdit, [field]: e.target.value });
   };
 
-  const handleSave = () => {
-    onSave(userEdit);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await update({
+      variables: { input: { id: user.id, name, address, description } },
+    });
+    onClose();
   };
 
   return (
-    <>
+    <Modal>
       <ModalBackdrop onClick={onClose} />
-      <Modal>
+      <ModalContent>
         <h1>Edit user</h1>
-        <ModalContent>
+        <ModalBody>
           <Mapbox ref={mapboxRef} />
-          <Form>
+          <Form id="user-editor-form" onSubmit={handleSubmit}>
             <Label>
               Name
-              <Input value={name} onChange={createChangeHandler("name")} />
+              <Input
+                required
+                autoFocus
+                placeholder="John Doe"
+                value={name}
+                onChange={createChangeHandler("name")}
+              />
             </Label>
             <Label>
               Address
               <Input
                 value={address ?? ""}
+                placeholder="Street, city, country"
                 onChange={createChangeHandler("address")}
               />
             </Label>
@@ -64,16 +86,19 @@ export const UserEditor = ({
               Description
               <Input
                 value={description ?? ""}
+                placeholder="Interests, roles, facts"
                 onChange={createChangeHandler("description")}
               />
             </Label>
           </Form>
-        </ModalContent>
+        </ModalBody>
         <ModalFooter>
-          <Button onClick={handleSave}>Save</Button>
+          <Button type="submit" form="user-editor-form" disabled={pristine}>
+            Save
+          </Button>
           <Button onClick={onClose}>Cancel</Button>
         </ModalFooter>
-      </Modal>
-    </>
+      </ModalContent>
+    </Modal>
   );
 };

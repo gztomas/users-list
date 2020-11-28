@@ -15,12 +15,15 @@ export const Input = styled.input`
   transition: border 0.3s ease-in-out;
   width: 25rem;
 
-  &:hover {
+  :hover {
     border-color: ${({ theme }) => theme.color.hover};
   }
-  &:focus {
+  :focus {
     outline: none;
     border-color: ${({ theme }) => theme.color.focus};
+  }
+  :invalid {
+    border-color: ${({ theme }) => theme.color.error};
   }
   ::placeholder {
     color: ${({ theme }) => theme.color.secondary};

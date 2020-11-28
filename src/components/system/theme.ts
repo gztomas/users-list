@@ -11,6 +11,7 @@ export const theme = {
     hover: "rgba(0, 0, 0, 0.4)",
     primary: "#000000",
     secondary: "rgba(0, 0, 0, 0.4)",
+    error: "#A22D27",
   },
 };
 
@@ -28,6 +29,12 @@ export const globalStyles = css`
     font-size: 16px;
     margin: 0;
     padding: 0;
+  }
+  @media only screen and (max-width: 1440px) {
+    html,
+    body {
+      font-size: 12px;
+    }
   }
   * {
     box-sizing: border-box;

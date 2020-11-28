@@ -17,11 +17,15 @@ export const Button = styled.button`
   transition: border 0.3s ease-in-out;
   width: 17.5rem;
 
-  &:hover {
+  :hover:not(:disabled) {
     border-color: ${({ theme }) => theme.color.hover};
   }
-  &:focus {
+  :focus {
     outline: none;
     border-color: ${({ theme }) => theme.color.focus};
+  }
+  :disabled {
+    cursor: not-allowed;
+    color: ${({ theme }) => theme.color.disabled};
   }
 `;

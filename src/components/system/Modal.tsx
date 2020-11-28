@@ -1,16 +1,30 @@
 import styled from "@emotion/styled";
+import * as React from "react";
 
 export const Modal = styled.div`
-  background-color: ${({ theme }) => theme.color.bgHaze};
-  border-radius: 8px;
-  min-height: 40rem;
-  position: absolute;
-  top: 19.21875rem;
-  width: 83rem;
-  padding: 4rem;
+  align-items: center;
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+`;
+
+export const ModalBackdrop = styled.div`
+  background-color: ${({ theme }) => theme.color.bgContrast};
+  inset: 0;
+  position: fixed;
 `;
 
 export const ModalContent = styled.div`
+  background-color: ${({ theme }) => theme.color.bgHaze};
+  border-radius: 8px;
+  min-height: 40rem;
+  padding: 4rem;
+  position: absolute;
+  width: 83rem;
+`;
+
+export const ModalBody = styled.div`
   display: flex;
   margin: 5rem 0;
 
@@ -28,11 +42,14 @@ export const ModalFooter = styled.div`
   }
 `;
 
-export const ModalBackdrop = styled.div`
-  background-color: ${({ theme }) => theme.color.bgContrast};
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-`;
+export const useModalShortcuts = ({ onClose }: { onClose: () => void }) => {
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    addEventListener("keydown", handleKeyDown);
+    return () => removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+};
