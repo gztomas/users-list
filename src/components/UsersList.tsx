@@ -67,6 +67,7 @@ const Header = styled.div`
   align-items: center;
   align-self: stretch;
   display: flex;
+  flex-wrap: wrap;
   flex: 1;
   justify-content: space-between;
 `;
@@ -75,7 +76,8 @@ const Grid = styled.div`
   align-self: stretch;
   display: grid;
   grid-gap: 4rem;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(25rem, auto));
+  justify-content: center;
   margin: 5rem 0;
 `;
 

@@ -10,20 +10,21 @@ export const Modal = styled.div`
 `;
 
 export const ModalBackdrop = styled.div`
+  animation: fade-in 0.1s ease-in-out;
   background-color: ${({ theme }) => theme.color.bgContrast};
   inset: 0;
   position: fixed;
-  animation: fade-in 0.1s ease-in-out;
 `;
 
 export const ModalContent = styled.div`
+  animation: appear 0.3s ease-in-out;
   background-color: ${({ theme }) => theme.color.bgHaze};
   border-radius: 8px;
+  max-width: 95vw;
   min-height: 40rem;
   padding: 4rem;
   position: absolute;
   width: 83rem;
-  animation: appear 0.3s ease-in-out;
 `;
 
 export const ModalBody = styled.div`
