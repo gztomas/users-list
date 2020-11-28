@@ -16,12 +16,17 @@ export const UsersList = () => {
     address: string | null;
     description: string | null;
   } | null>(null);
-  const { users, loadMore } = useUsersList(searchTerm);
+  const { users, loadMore, loading } = useUsersList(searchTerm);
 
   const skeletonItems = Array<null>(6).fill(null);
   const items =
     users?.items?.filter((user) => !user || user?.name.includes(searchTerm)) ??
     skeletonItems;
+
+  const handleLoadMore = async () => {
+    await loadMore();
+    scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  };
 
   return (
     <>
@@ -51,7 +56,9 @@ export const UsersList = () => {
           </UserCard>
         ))}
       </Grid>
-      <Button onClick={loadMore}>Load more</Button>
+      <Button onClick={handleLoadMore} disabled={loading}>
+        {loading ? "Loading..." : "Load more"}
+      </Button>
       {selected && (
         <UserEditor
           key={selected.id}

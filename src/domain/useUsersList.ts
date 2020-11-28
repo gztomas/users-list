@@ -9,20 +9,24 @@ import {
 import { listUsers, searchUsers } from "../graphql/queries";
 
 export const useUsersList = (match: string) => {
-  const { data: searchData, fetchMore: fetchMoreSearch } = useQuery<
-    SearchUsersQuery,
-    SearchUsersQueryVariables
-  >(gql(searchUsers), {
-    variables: { limit: 6, filter: { name: { match } } },
+  const {
+    data: searchData,
+    fetchMore: fetchMoreSearch,
+    loading: searchLoading,
+  } = useQuery<SearchUsersQuery, SearchUsersQueryVariables>(gql(searchUsers), {
+    notifyOnNetworkStatusChange: true,
     skip: !match,
+    variables: { limit: 6, filter: { name: { match } } },
   });
 
-  const { data: listData, fetchMore: fetchMoreList } = useQuery<
-    ListUsersQuery,
-    ListUsersQueryVariables
-  >(gql(listUsers), {
-    variables: { limit: 6, filter: { name: { contains: match } } },
+  const {
+    data: listData,
+    fetchMore: fetchMoreList,
+    loading: listLoading,
+  } = useQuery<ListUsersQuery, ListUsersQueryVariables>(gql(listUsers), {
+    notifyOnNetworkStatusChange: true,
     skip: Boolean(match),
+    variables: { limit: 6, filter: { name: { contains: match } } },
   });
 
   const usersRef = useRef(listData?.listUsers ?? searchData?.searchUsers);
@@ -32,6 +36,7 @@ export const useUsersList = (match: string) => {
 
   return {
     users: usersRef.current,
+    loading: searchLoading || listLoading,
     loadMore: () =>
       fetchMore({
         variables: { nextToken: usersRef.current?.nextToken },
