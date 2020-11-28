@@ -12,7 +12,6 @@ export const Card = styled.a`
   flex-direction: column;
   height: 21rem;
   justify-content: space-between;
-  padding: 1.5rem;
   padding: 2.5rem 2rem;
   text-align: left;
   text-decoration: none;

@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
 import { useUsersList } from "../domain/useUsersList";
+import { EditIcon } from "./icons/EditIcon";
 import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
 import { Card, CardContent, CardSubtitle, CardTitle } from "./system/Card";
@@ -31,13 +32,14 @@ export const UsersList = () => {
         {users?.items
           ?.filter((user) => user?.name.includes(searchTerm))
           .map((user) => (
-            <Card key={user?.id} onClick={() => setSelected(user)}>
+            <UserCard key={user?.id} onClick={() => setSelected(user)}>
+              <CardIcon />
               <Avatar />
               <CardContent>
                 <CardTitle>{user?.name}</CardTitle>
                 <CardSubtitle>{user?.description}</CardSubtitle>
               </CardContent>
-            </Card>
+            </UserCard>
           ))}
       </Grid>
       <Button onClick={loadMore}>Load more</Button>
@@ -62,4 +64,21 @@ const Grid = styled.div`
   grid-gap: 4rem;
   grid-template-columns: repeat(3, 1fr);
   margin: 5rem 0;
+`;
+
+const CardIcon = styled(EditIcon)`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+`;
+
+const UserCard = styled(Card)`
+  position: relative;
+  :hover {
+    svg {
+      opacity: 1;
+    }
+  }
 `;
