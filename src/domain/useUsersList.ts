@@ -6,6 +6,12 @@ import { searchUsers } from "../graphql/queries";
 const DEFAULT_PAGE_SIZE = 6;
 
 export const useUsersList = (query: string, limit = DEFAULT_PAGE_SIZE) => {
+  const [debouncedQuery, setDebouncedQuery] = React.useState(query);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedQuery(query), 300);
+    return () => clearTimeout(timeout);
+  }, [query]);
+
   const { data, fetchMore, loading, error } = useQuery<
     SearchUsersQuery,
     SearchUsersQueryVariables
@@ -13,7 +19,9 @@ export const useUsersList = (query: string, limit = DEFAULT_PAGE_SIZE) => {
     notifyOnNetworkStatusChange: true,
     variables: {
       limit,
-      filter: query ? { name: { wildcard: `*${query.toLowerCase()}*` } } : null,
+      filter: debouncedQuery
+        ? { name: { wildcard: `*${debouncedQuery.toLowerCase()}*` } }
+        : null,
     },
   });
 
