@@ -1,26 +1,29 @@
 import { gql, useQuery } from "@apollo/client";
-import { useRef } from "react";
+import * as React from "react";
 import { SearchUsersQuery, SearchUsersQueryVariables } from "../API";
 import { searchUsers } from "../graphql/queries";
 
-export const useUsersList = (match: string) => {
+const DEFAULT_PAGE_SIZE = 6;
+
+export const useUsersList = (query: string, limit = DEFAULT_PAGE_SIZE) => {
   const { data, fetchMore, loading, error } = useQuery<
     SearchUsersQuery,
     SearchUsersQueryVariables
   >(gql(searchUsers), {
     notifyOnNetworkStatusChange: true,
     variables: {
-      limit: 6,
-      filter: match ? { name: { wildcard: `*${match.toLowerCase()}*` } } : null,
+      limit,
+      filter: query ? { name: { wildcard: `*${query.toLowerCase()}*` } } : null,
     },
   });
 
-  const dataRef = useRef(data);
+  const dataRef = React.useRef(data);
   dataRef.current = data ?? dataRef.current;
 
   const users = dataRef.current?.searchUsers;
-  const hasMore =
-    users?.items && users.total && users.items.length < users.total;
+  const hasMore = Boolean(
+    users?.items && users.total && users.items.length < users.total
+  );
 
   return {
     users: dataRef.current?.searchUsers,
@@ -29,7 +32,10 @@ export const useUsersList = (match: string) => {
     hasMore,
     loadMore: () =>
       fetchMore({
-        variables: { nextToken: dataRef.current?.searchUsers?.nextToken },
+        variables: {
+          nextToken: dataRef.current?.searchUsers?.nextToken,
+          limit: DEFAULT_PAGE_SIZE,
+        },
       }),
   };
 };

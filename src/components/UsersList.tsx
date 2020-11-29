@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
 import { useUsersList } from "../domain/useUsersList";
+import { getUriState, useUriState } from "../useUriState";
 import { EditIcon } from "./icons/EditIcon";
 import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
@@ -9,16 +10,20 @@ import { Input } from "./system/Input";
 import { UserEditor } from "./UserEditor";
 
 export const UsersList = () => {
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const { query = "", limit = 6 } = getUriState();
+  const [searchTerm, setSearchTerm] = React.useState(query);
   const [selected, setSelected] = React.useState<{
     id: string;
     name: string;
     address: string | null;
     description: string | null;
   } | null>(null);
-  const { users, loadMore, loading, error, hasMore } = useUsersList(searchTerm);
+  const { users, loadMore, loading, error, hasMore } = useUsersList(
+    searchTerm,
+    limit
+  );
 
-  const skeletonItems = Array<null>(6).fill(null);
+  const skeletonItems = Array<null>(limit).fill(null);
   const items =
     users?.items?.filter(
       (user) =>
@@ -29,6 +34,8 @@ export const UsersList = () => {
     await loadMore();
     scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   };
+
+  useUriState({ query: searchTerm, limit: users?.items?.length });
 
   return (
     <>
@@ -58,13 +65,15 @@ export const UsersList = () => {
           </UserCard>
         ))}
       </Grid>
-      <Button
-        onClick={handleLoadMore}
-        disabled={loading || !hasMore}
-        $error={Boolean(error)}
-      >
-        {loading ? "Loading..." : "Load more"}
-      </Button>
+      {hasMore && (
+        <Button
+          onClick={handleLoadMore}
+          disabled={loading || !hasMore}
+          $error={Boolean(error)}
+        >
+          {loading ? "Loading..." : "Load more"}
+        </Button>
+      )}
       {selected && (
         <UserEditor
           key={selected.id}

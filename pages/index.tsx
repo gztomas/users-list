@@ -40,7 +40,7 @@ const Main = styled.main`
   flex: 1;
   justify-content: center;
   align-items: center;
-  margin: 11rem 6rem;
+  margin: 11rem 6rem 5rem 6rem;
   max-width: 83rem;
 `;
 
