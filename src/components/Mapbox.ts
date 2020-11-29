@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import mapboxgl, { LngLatLike } from "mapbox-gl";
+import mapboxgl, { LngLatBoundsLike, LngLatLike } from "mapbox-gl";
 import * as React from "react";
 
 const accessToken =
@@ -7,10 +7,10 @@ const accessToken =
 const mapboxStyle = "mapbox://styles/gztomas/cki0qq81t40f619n23yfhor92";
 
 export const geocode = async (query: string) => {
-  const uri = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?types=address&access_token=${accessToken}`;
+  const uri = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${accessToken}`;
   const result = await fetch(uri);
   const json = (await result.json()) as {
-    features: ({ bbox: number[]; center: LngLatLike } | undefined)[];
+    features: ({ bbox: LngLatBoundsLike; center: LngLatLike } | undefined)[];
   };
   return json;
 };
@@ -59,9 +59,13 @@ export const useMapbox = (query: string | null) => {
     const locate = async () => {
       if (!query) return;
       const location = (await geocode(query)).features[0];
-      if (location) mapboxRef.current?.setCenter(location.center);
+      if (location) {
+        mapboxRef.current?.setCenter(location.center);
+        mapboxRef.current?.setMaxBounds(location.bbox);
+      }
     };
-    void locate();
+    const timeout = setTimeout(() => void locate(), 500);
+    return () => clearTimeout(timeout);
   }, [query]);
 
   return ref;
