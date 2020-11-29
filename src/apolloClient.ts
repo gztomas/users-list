@@ -5,6 +5,8 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import { captureException } from "@sentry/browser";
 import { useMemo } from "react";
 import { SearchUsersQuery } from "./API";
 import aws_config from "./aws-exports";
@@ -19,13 +21,25 @@ const mergeListUsersQuery: FieldMergeFunction<Partial<
   items: [...(existing?.items ?? []), ...(incoming?.items ?? [])],
 });
 
+const errorLink = onError(({ graphQLErrors }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) =>
+      captureException(new Error(`[GraphQL error]: ${message}`), {
+        extra: { locations, path },
+      })
+    );
+  }
+});
+
 const createClient = () =>
   new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: new HttpLink({
-      uri: aws_config.aws_appsync_graphqlEndpoint,
-      headers: { "x-api-key": aws_config.aws_appsync_apiKey },
-    }),
+    link: errorLink.concat(
+      new HttpLink({
+        uri: aws_config.aws_appsync_graphqlEndpoint,
+        headers: { "x-api-key": aws_config.aws_appsync_apiKey },
+      })
+    ),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
