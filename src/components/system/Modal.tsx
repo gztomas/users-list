@@ -4,7 +4,10 @@ import * as React from "react";
 export const Modal = styled.div`
   align-items: center;
   display: flex;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   justify-content: center;
   position: fixed;
 `;
@@ -12,7 +15,10 @@ export const Modal = styled.div`
 export const ModalBackdrop = styled.div`
   animation: fade-in 0.1s ease-in-out;
   background-color: ${({ theme }) => theme.color.bgContrast};
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   position: fixed;
 `;
 
