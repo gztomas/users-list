@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
 import { useUsersList } from "../domain/useUsersList";
-import { getUriState, useUriState } from "../useUriState";
+import { getUriState, setUriState } from "../uriState";
 import { EditIcon } from "./icons/EditIcon";
 import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
@@ -35,7 +35,12 @@ export const UsersList = () => {
     scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   };
 
-  useUriState({ query: searchTerm, limit: users?.items?.length });
+  React.useEffect(() => {
+    setUriState({
+      query: searchTerm,
+      limit: items.length > 6 ? items.length : undefined,
+    });
+  }, [searchTerm, items]);
 
   return (
     <>
