@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { captureException } from "@sentry/browser";
 import mapboxgl, { LngLatBoundsLike, LngLatLike } from "mapbox-gl";
 import * as React from "react";
 
@@ -40,37 +41,42 @@ export const useMapbox = (query: string | null) => {
 
   React.useEffect(() => {
     const update = async () => {
-      if (!query) return;
-      const location = (await geocode(query)).features[0];
-      if (location) {
-        const element = ref.current;
-        if (element && !element.children.length) {
-          const container = document.createElement("div");
-          const { style } = container;
-          // These styles are needed inline so mapbox can pick them
-          style.position = "absolute";
-          style.top = style.right = style.bottom = style.left = "0";
-          element.appendChild(container);
-          mapboxRef.current = new mapboxgl.Map({
-            accessToken: ACCESS_TOKEN,
-            container,
-            style: MAPBOX_STYLE,
-            center: location.center,
-            zoom: 10,
-          });
-          markerRef.current = new mapboxgl.Marker()
-            .setLngLat(location.center)
-            .addTo(mapboxRef.current);
+      try {
+        if (!query) return;
+        const location = (await geocode(query)).features[0];
+        if (location) {
+          const element = ref.current;
+          if (element && !element.children.length) {
+            const container = document.createElement("div");
+            const { style } = container;
+            // These styles are needed inline so mapbox can pick them
+            style.position = "absolute";
+            style.top = style.right = style.bottom = style.left = "0";
+            element.appendChild(container);
+            mapboxRef.current = new mapboxgl.Map({
+              accessToken: ACCESS_TOKEN,
+              container,
+              style: MAPBOX_STYLE,
+              center: location.center,
+              zoom: 10,
+            });
+            markerRef.current = new mapboxgl.Marker()
+              .setLngLat(location.center)
+              .addTo(mapboxRef.current);
+          }
+          mapboxRef.current?.setCenter(location.center);
+          markerRef.current?.setLngLat(location.center);
+          if (location.bbox) {
+            mapboxRef.current?.fitBounds(location.bbox);
+          } else {
+            mapboxRef.current?.setZoom(13);
+          }
         }
-        mapboxRef.current?.setCenter(location.center);
-        markerRef.current?.setLngLat(location.center);
-        if (location.bbox) {
-          mapboxRef.current?.fitBounds(location.bbox);
-        } else {
-          mapboxRef.current?.setZoom(13);
-        }
+      } catch (e) {
+        captureException(e, { extra: { query } });
       }
     };
+
     const timeout = setTimeout(() => void update(), 500);
     return () => clearTimeout(timeout);
   }, [query]);
