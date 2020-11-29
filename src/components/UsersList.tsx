@@ -9,6 +9,9 @@ import { Card, CardContent, CardSubtitle, CardTitle } from "./system/Card";
 import { Input } from "./system/Input";
 import { UserEditor } from "./UserEditor";
 
+export const PLACEHOLDER_AVATAR_IMAGE =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
 export const UsersList = () => {
   const { query = "", limit = 6 } = getUriState();
   const [searchTerm, setSearchTerm] = React.useState(query);
@@ -60,7 +63,7 @@ export const UsersList = () => {
               src={
                 item?.id
                   ? `https://source.unsplash.com/126x126/?portrait,${item.id}`
-                  : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                  : PLACEHOLDER_AVATAR_IMAGE
               }
             />
             <CardContent>

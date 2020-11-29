@@ -40,6 +40,7 @@
     "jest-playwright-preset": "^1.4.1",
     "jest-screenshot": "^0.3.2",
     "mapbox-gl": "^1.13.0",
+    "msw": "^0.22.3",
     "next": "^10.0.0",
     "playwright-chromium": "^1.6.2",
     "react": "^17.0.0",
