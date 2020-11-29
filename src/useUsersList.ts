@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import * as React from "react";
-import { SearchUsersQuery, SearchUsersQueryVariables } from "../API";
-import { searchUsers } from "../graphql/queries";
+import { SearchUsersQuery, SearchUsersQueryVariables } from "./API";
+import { searchUsers } from "./graphql/queries";
 
 const DEFAULT_PAGE_SIZE = 6;
 

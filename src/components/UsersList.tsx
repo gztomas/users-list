@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
-import { useUsersList } from "../domain/useUsersList";
 import { getUriState, setUriState } from "../uriState";
+import { useUsersList } from "../useUsersList";
 import { EditIcon } from "./icons/EditIcon";
 import { Avatar } from "./system/Avatar";
 import { Button } from "./system/Button";
@@ -73,7 +73,7 @@ export const UsersList = () => {
       {hasMore && (
         <Button
           onClick={handleLoadMore}
-          disabled={loading || !hasMore}
+          disabled={loading}
           $error={Boolean(error)}
         >
           {loading ? "Loading..." : "Load more"}
