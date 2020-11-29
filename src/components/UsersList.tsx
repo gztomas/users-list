@@ -16,12 +16,14 @@ export const UsersList = () => {
     address: string | null;
     description: string | null;
   } | null>(null);
-  const { users, loadMore, loading, error } = useUsersList(searchTerm);
+  const { users, loadMore, loading, error, hasMore } = useUsersList(searchTerm);
 
   const skeletonItems = Array<null>(6).fill(null);
   const items =
-    users?.items?.filter((user) => !user || user?.name.includes(searchTerm)) ??
-    skeletonItems;
+    users?.items?.filter(
+      (user) =>
+        !user || user?.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) ?? skeletonItems;
 
   const handleLoadMore = async () => {
     await loadMore();
@@ -58,7 +60,7 @@ export const UsersList = () => {
       </Grid>
       <Button
         onClick={handleLoadMore}
-        disabled={loading}
+        disabled={loading || !hasMore}
         $error={Boolean(error)}
       >
         {loading ? "Loading..." : "Load more"}

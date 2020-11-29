@@ -6,14 +6,14 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 import { useMemo } from "react";
-import { ListUsersQuery } from "./API";
+import { SearchUsersQuery } from "./API";
 import aws_config from "./aws-exports";
 
 let apolloClient: ReturnType<typeof createClient>;
 
-const mergeListUsersQuery: FieldMergeFunction<
-  Partial<ListUsersQuery["listUsers"]>
-> = (existing, incoming) => ({
+const mergeListUsersQuery: FieldMergeFunction<Partial<
+  SearchUsersQuery["searchUsers"]
+>> = (existing, incoming) => ({
   ...existing,
   ...incoming,
   items: [...(existing?.items ?? []), ...(incoming?.items ?? [])],
@@ -30,7 +30,7 @@ const createClient = () =>
       typePolicies: {
         Query: {
           fields: {
-            listUsers: { keyArgs: ["filter"], merge: mergeListUsersQuery },
+            searchUsers: { keyArgs: ["filter"], merge: mergeListUsersQuery },
           },
         },
       },

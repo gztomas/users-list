@@ -1,48 +1,35 @@
 import { gql, useQuery } from "@apollo/client";
 import { useRef } from "react";
-import {
-  ListUsersQuery,
-  ListUsersQueryVariables,
-  SearchUsersQuery,
-  SearchUsersQueryVariables,
-} from "../API";
-import { listUsers, searchUsers } from "../graphql/queries";
+import { SearchUsersQuery, SearchUsersQueryVariables } from "../API";
+import { searchUsers } from "../graphql/queries";
 
 export const useUsersList = (match: string) => {
-  const {
-    data: searchData,
-    fetchMore: fetchMoreSearch,
-    loading: searchLoading,
-    error: searchError,
-  } = useQuery<SearchUsersQuery, SearchUsersQueryVariables>(gql(searchUsers), {
+  const { data, fetchMore, loading, error } = useQuery<
+    SearchUsersQuery,
+    SearchUsersQueryVariables
+  >(gql(searchUsers), {
     notifyOnNetworkStatusChange: true,
-    skip: !match,
-    variables: { limit: 6, filter: { name: { match } } },
+    variables: {
+      limit: 6,
+      filter: match ? { name: { wildcard: `*${match.toLowerCase()}*` } } : null,
+    },
   });
 
-  const {
-    data: listData,
-    fetchMore: fetchMoreList,
-    loading: listLoading,
-    error: listError,
-  } = useQuery<ListUsersQuery, ListUsersQueryVariables>(gql(listUsers), {
-    notifyOnNetworkStatusChange: true,
-    skip: Boolean(match),
-    variables: { limit: 6, filter: { name: { contains: match } } },
-  });
+  const dataRef = useRef(data);
+  dataRef.current = data ?? dataRef.current;
 
-  const usersRef = useRef(listData?.listUsers ?? searchData?.searchUsers);
-  usersRef.current =
-    listData?.listUsers ?? searchData?.searchUsers ?? usersRef.current;
-  const fetchMore = match ? fetchMoreSearch : fetchMoreList;
+  const users = dataRef.current?.searchUsers;
+  const hasMore =
+    users?.items && users.total && users.items.length < users.total;
 
   return {
-    users: usersRef.current,
-    loading: searchLoading || listLoading,
-    error: searchError ?? listError,
+    users: dataRef.current?.searchUsers,
+    loading,
+    error,
+    hasMore,
     loadMore: () =>
       fetchMore({
-        variables: { nextToken: usersRef.current?.nextToken },
+        variables: { nextToken: dataRef.current?.searchUsers?.nextToken },
       }),
   };
 };
