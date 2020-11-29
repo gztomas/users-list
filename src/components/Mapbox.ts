@@ -3,7 +3,7 @@ import { captureException } from "@sentry/browser";
 import mapboxgl, { LngLatBoundsLike, LngLatLike } from "mapbox-gl";
 import * as React from "react";
 
-const ACCESS_TOKEN =
+export const ACCESS_TOKEN =
   "pk.eyJ1IjoiZ3p0b21hcyIsImEiOiJja2h6OGZuczkwaXNzMnNsMmw3dnk5bmxzIn0.QO9AD8ynVhAuNnjCKGLzVw";
 const MAPBOX_STYLE = "mapbox://styles/gztomas/cki0qq81t40f619n23yfhor92";
 

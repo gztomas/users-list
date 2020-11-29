@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+/jest-screenshot-report
 
 # next.js
 /.next/
