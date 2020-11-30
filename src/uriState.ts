@@ -16,12 +16,16 @@ export const getUriState = () => {
 };
 
 export const setUriState = ({ query, limit }: UriState) => {
-  const params = new URLSearchParams();
+  const params = new URLSearchParams(window?.location.search);
   if (limit) {
     params.set("limit", String(limit));
+  } else {
+    params.delete("limit");
   }
   if (query) {
     params.set("query", query);
+  } else {
+    params.delete("query");
   }
   const search = params.toString();
   history.pushState(

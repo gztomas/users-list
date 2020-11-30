@@ -2,6 +2,19 @@ import { graphql, rest, setupWorker } from "msw";
 import { SearchUsersQuery, SearchUsersQueryVariables } from "./API";
 import { PLACEHOLDER_AVATAR_IMAGE } from "./components/UsersList";
 
+const names = [
+  "Brody Shepard",
+  "Karolina Griffith",
+  "Annabella Day",
+  "Jaidon Mcnamara",
+  "Nettie Koch",
+  "Amanpreet Bob",
+  "Maci Byrd",
+  "Ailish Chase",
+  "Sienna Marriott",
+  "Kaylem Barron",
+];
+
 const handlers = [
   graphql.query<SearchUsersQuery, SearchUsersQueryVariables>(
     "SearchUsers",
@@ -9,20 +22,18 @@ const handlers = [
       res(
         ctx.data({
           searchUsers: {
-            items: [
-              {
-                __typename: "User",
-                address: null,
-                createdAt: "2019",
-                description: null,
-                dob: null,
-                id: "1",
-                name: "Some user",
-                updatedAt: "2020",
-              },
-            ],
-            nextToken: "token",
-            total: 0,
+            items: Array.from({ length: 15 }, (_, i) => ({
+              __typename: "User" as const,
+              address: null,
+              createdAt: "2019",
+              description: null,
+              dob: null,
+              id: String(i),
+              name: names[i % names.length],
+              updatedAt: "2020",
+            })).slice(0, req.variables.limit ?? 100),
+            nextToken: "0",
+            total: 15,
             __typename: "SearchableUserConnection",
           },
         })
@@ -41,7 +52,10 @@ const handlers = [
   }),
 ];
 
-if (typeof window !== "undefined" && process.env.NODE_ENV === "test") {
+if (
+  typeof window !== "undefined" &&
+  window.location.search.includes("msw=true")
+) {
   const worker = setupWorker(...handlers);
   void worker.start();
 }

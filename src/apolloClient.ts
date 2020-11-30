@@ -10,7 +10,7 @@ import { captureException } from "@sentry/browser";
 import { useMemo } from "react";
 import { SearchUsersQuery } from "./API";
 import aws_config from "./aws-exports";
-import "./testServer";
+import "./mockServer";
 
 let apolloClient: ReturnType<typeof createClient>;
 

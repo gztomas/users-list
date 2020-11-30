@@ -65,6 +65,8 @@ To run just one project, let's say unit tests only:
 npm test -- --selectProjects unit
 ```
 
+To achieve deterministic tests, functional tests run against an MSW mocked backend. Check `src/mockServer.ts`
+
 ### Troubleshooting
 
 ```bash

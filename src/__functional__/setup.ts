@@ -18,4 +18,4 @@ setupJestScreenshot(
 jest.setTimeout(10000);
 page.setDefaultTimeout(5000);
 
-beforeEach(() => page.goto("http://localhost:5000"));
+beforeEach(() => page.goto("http://localhost:5000?msw=true"));
