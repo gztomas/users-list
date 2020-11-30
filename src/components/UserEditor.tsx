@@ -60,7 +60,7 @@ export const UserEditor = ({
   return (
     <Modal>
       <ModalBackdrop onClick={onClose} />
-      <ModalContent>
+      <ModalContent data-testid="user-editor-modal-content">
         <h1>Edit user</h1>
         <ModalBody>
           <Mapbox ref={mapboxRef} />

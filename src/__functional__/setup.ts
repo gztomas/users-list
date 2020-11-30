@@ -7,9 +7,9 @@ import { setupJestScreenshot } from "jest-screenshot";
 // functional tests runner so the render happens always in the same system.
 // Until we have that, keeping a 10% threshold only in the CI so we still can
 // notice small visual diffs during development.
-setupJestScreenshot(
-  process.env.CI ? { pixelThresholdRelative: 0.1 } : undefined
-);
+setupJestScreenshot({
+  pixelThresholdRelative: process.env.CI ? 0.1 : 0.01,
+});
 
 // Jest default timeout is 5s, which works great for tests in node, but we are
 // using jest-playwright here. Driving the browser makes things usually take

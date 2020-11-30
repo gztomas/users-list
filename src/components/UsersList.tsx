@@ -53,11 +53,16 @@ export const UsersList = () => {
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          data-testid="users-list-search-input"
         />
       </Header>
       <Grid>
         {items.map((item, i) => (
-          <UserCard key={item?.id ?? i} onClick={() => setSelected(item)}>
+          <UserCard
+            key={item?.id ?? i}
+            onClick={() => setSelected(item)}
+            data-testid="users-list-user-card"
+          >
             <CardIcon />
             <Avatar
               src={
