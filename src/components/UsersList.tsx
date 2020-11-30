@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import * as React from "react";
+import { PLACEHOLDER_AVATAR_IMAGE } from "../constants";
 import { getUriState, setUriState } from "../uriState";
 import { useUsersList } from "../useUsersList";
 import { EditIcon } from "./icons/EditIcon";
@@ -8,9 +9,6 @@ import { Button } from "./system/Button";
 import { Card, CardContent, CardSubtitle, CardTitle } from "./system/Card";
 import { Input } from "./system/Input";
 import { UserEditor } from "./UserEditor";
-
-export const PLACEHOLDER_AVATAR_IMAGE =
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 export const UsersList = () => {
   const { query = "", limit = 6 } = getUriState();

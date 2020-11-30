@@ -2,13 +2,10 @@ import styled from "@emotion/styled";
 import { captureException } from "@sentry/browser";
 import mapboxgl, { LngLatBoundsLike, LngLatLike } from "mapbox-gl";
 import * as React from "react";
-
-export const ACCESS_TOKEN =
-  "pk.eyJ1IjoiZ3p0b21hcyIsImEiOiJja2h6OGZuczkwaXNzMnNsMmw3dnk5bmxzIn0.QO9AD8ynVhAuNnjCKGLzVw";
-const MAPBOX_STYLE = "mapbox://styles/gztomas/cki0qq81t40f619n23yfhor92";
+import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from "../constants";
 
 export const geocode = async (query: string) => {
-  const uri = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${ACCESS_TOKEN}`;
+  const uri = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${MAPBOX_ACCESS_TOKEN}`;
   const result = await fetch(uri);
   return (await result.json()) as {
     features: ({ bbox: LngLatBoundsLike; center: LngLatLike } | undefined)[];
@@ -54,7 +51,7 @@ export const useMapbox = (query: string | null) => {
             style.top = style.right = style.bottom = style.left = "0";
             element.appendChild(container);
             mapboxRef.current = new mapboxgl.Map({
-              accessToken: ACCESS_TOKEN,
+              accessToken: MAPBOX_ACCESS_TOKEN,
               container,
               style: MAPBOX_STYLE,
               center: location.center,

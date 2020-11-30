@@ -5,7 +5,7 @@ import {
   UpdateUserMutation,
   UpdateUserMutationVariables,
 } from "./API";
-import { PLACEHOLDER_AVATAR_IMAGE } from "./components/UsersList";
+import { PLACEHOLDER_AVATAR_IMAGE } from "./constants";
 
 const names = [
   "Brody Shepard",
