@@ -1,5 +1,10 @@
 const config = {
-  globals: { "ts-jest": { isolatedModules: true } },
+  globals: {
+    "ts-jest": {
+      isolatedModules: true,
+      tsconfig: "tsconfig.jest.json",
+    },
+  },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
   testPathIgnorePatterns: ["/node_modules/", "/out/"],
   transform: { "^.+\\.(t|j)sx?$": "ts-jest" },
