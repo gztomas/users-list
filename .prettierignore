@@ -1,4 +1,10 @@
 .cache
+.github
+.next
 .vscode
+amplify
 node_modules
 out
+public
+src/API.ts
+src/graphql

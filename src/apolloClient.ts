@@ -22,9 +22,9 @@ let apolloClient: ReturnType<typeof createClient>;
  * @param existing
  * @param incoming
  */
-const mergeListUsersQuery: FieldMergeFunction<Partial<
-  SearchUsersQuery["searchUsers"]
->> = (existing, incoming) => ({
+const mergeListUsersQuery: FieldMergeFunction<
+  Partial<SearchUsersQuery["searchUsers"]>
+> = (existing, incoming) => ({
   ...existing,
   ...incoming,
   items: (existing?.items ?? []).concat(incoming?.items ?? []),
