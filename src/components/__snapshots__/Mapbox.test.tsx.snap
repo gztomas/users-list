@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useMapbox 1`] = `
+<div>
+  <div>
+    map here
+    <div
+      style="position: absolute; left: 0px; bottom: 0px; right: 0px; top: 0px;"
+    />
+  </div>
+</div>
+`;
