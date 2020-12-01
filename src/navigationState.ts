@@ -1,7 +1,10 @@
-type UriState = { limit?: number; query?: string };
+type NavigationState = { limit?: number; query?: string };
 
+/**
+ * Reads `query` and `limit` values from current URI
+ */
 export const getUriState = () => {
-  const result: UriState = {};
+  const result: NavigationState = {};
   if (typeof window === "undefined") return result;
   const params = new URLSearchParams(window?.location.search);
   const limitParam = params.get("limit");
@@ -15,7 +18,11 @@ export const getUriState = () => {
   return result;
 };
 
-export const setUriState = ({ query, limit }: UriState) => {
+/**
+ * Updates URI with `query` and `limit` values of current navigation state, so
+ * it is preserved after page refresh
+ */
+export const setUriState = ({ query, limit }: NavigationState) => {
   const params = new URLSearchParams(window?.location.search);
   if (limit) {
     params.set("limit", String(limit));

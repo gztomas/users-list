@@ -3,12 +3,10 @@ import styled from "@emotion/styled";
 export const Card = styled.button`
   align-items: center;
   background-color: ${({ theme }) => theme.color.bgPrimary};
+  border: none;
   border-radius: 10px;
-  border: 1px solid #eaeaea;
-  color: inherit;
   cursor: pointer;
   display: flex;
-  flex-basis: 45%;
   flex-direction: column;
   height: 21rem;
   justify-content: space-between;

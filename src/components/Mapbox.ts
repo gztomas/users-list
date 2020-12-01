@@ -4,6 +4,9 @@ import mapboxgl, { LngLatBoundsLike, LngLatLike } from "mapbox-gl";
 import * as React from "react";
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from "../constants";
 
+/**
+ * Given an address string, return the geocode provided by mapbox API
+ */
 export const geocode = async (query: string) => {
   const uri = `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${MAPBOX_ACCESS_TOKEN}`;
   const result = await fetch(uri);
@@ -31,6 +34,11 @@ export const Mapbox = styled.div`
   }
 `;
 
+/**
+ * Provides an html ref under which a mapbox map will be created. A marker will
+ * be added to that map depending on the address provided in query
+ * @param query
+ */
 export const useMapbox = (query: string | null) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const mapboxRef = React.useRef<mapboxgl.Map>();
@@ -74,6 +82,7 @@ export const useMapbox = (query: string | null) => {
       }
     };
 
+    // Debounce requests to mapbox
     const timeout = setTimeout(() => void update(), 500);
     return () => clearTimeout(timeout);
   }, [query]);

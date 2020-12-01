@@ -31,6 +31,9 @@ const users = Array.from({ length: 15 }, (_, i) => ({
   updatedAt: "2020",
 }));
 
+/**
+ * Mock API for functional tests
+ */
 const handlers = [
   graphql.query<SearchUsersQuery, SearchUsersQueryVariables>(
     "SearchUsers",
@@ -62,7 +65,7 @@ const handlers = [
     }
   ),
 
-  rest.get("https://source.unsplash.com/*", async (req, res, ctx) => {
+  rest.get("https://source.unsplash.com/*", async (_, res, ctx) => {
     const imageBuffer = await (
       await fetch(PLACEHOLDER_AVATAR_IMAGE)
     ).arrayBuffer();

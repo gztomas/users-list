@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
-import { PLACEHOLDER_AVATAR_IMAGE } from "../constants";
-import { getUriState, setUriState } from "../uriState";
+import { DEFAULT_PAGE_SIZE, PLACEHOLDER_AVATAR_IMAGE } from "../constants";
+import { getUriState, setUriState } from "../navigationState";
 import { useUsersList } from "../useUsersList";
 import { EditIcon } from "./icons/EditIcon";
 import { Avatar } from "./system/Avatar";
@@ -11,7 +11,7 @@ import { Input } from "./system/Input";
 import { UserEditor } from "./UserEditor";
 
 export const UsersList = () => {
-  const { query = "", limit = 6 } = getUriState();
+  const { query = "", limit = DEFAULT_PAGE_SIZE } = getUriState();
   const [searchTerm, setSearchTerm] = React.useState(query);
   const [selected, setSelected] = React.useState<{
     id: string;
@@ -39,7 +39,7 @@ export const UsersList = () => {
   React.useEffect(() => {
     setUriState({
       query: searchTerm,
-      limit: items.length > 6 ? items.length : undefined,
+      limit: items.length > DEFAULT_PAGE_SIZE ? items.length : undefined,
     });
   }, [searchTerm, items]);
 
