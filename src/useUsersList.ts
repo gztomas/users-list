@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import * as React from "react";
-import { SearchUsersQuery, SearchUsersQueryVariables } from "./API";
+import { ListUsersQuery, ListUsersQueryVariables } from "./API";
 import { DEFAULT_PAGE_SIZE } from "./constants";
-import { searchUsers } from "./graphql/queries";
+import { listUsers } from "./graphql/queries";
 
 /**
  * Hook that syncs state between server state and presentation for a given
@@ -20,15 +20,13 @@ export const useUsersList = (query: string, limit = DEFAULT_PAGE_SIZE) => {
   }, [query]);
 
   const { data, fetchMore, loading, error } = useQuery<
-    SearchUsersQuery,
-    SearchUsersQueryVariables
-  >(gql(searchUsers), {
+    ListUsersQuery,
+    ListUsersQueryVariables
+  >(gql(listUsers), {
     notifyOnNetworkStatusChange: true,
     variables: {
       limit,
-      filter: debouncedQuery
-        ? { name: { wildcard: `*${debouncedQuery.toLowerCase()}*` } }
-        : null,
+      filter: debouncedQuery ? { name: { contains: debouncedQuery } } : null,
     },
   });
 
@@ -38,20 +36,18 @@ export const useUsersList = (query: string, limit = DEFAULT_PAGE_SIZE) => {
   const dataRef = React.useRef(data);
   dataRef.current = data ?? dataRef.current;
 
-  const users = dataRef.current?.searchUsers;
-  const hasMore = Boolean(
-    users?.items && users.total && users.items.length < users.total
-  );
+  const users = dataRef.current?.listUsers;
+  const hasMore = Boolean(users?.items && users.nextToken);
 
   return {
-    users: dataRef.current?.searchUsers,
+    users: dataRef.current?.listUsers,
     loading,
     error,
     hasMore,
     loadMore: () =>
       fetchMore({
         variables: {
-          nextToken: dataRef.current?.searchUsers?.nextToken,
+          nextToken: dataRef.current?.listUsers?.nextToken,
           limit: DEFAULT_PAGE_SIZE,
         },
       }),

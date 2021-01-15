@@ -8,14 +8,14 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { captureException } from "@sentry/browser";
 import { useMemo } from "react";
-import { SearchUsersQuery } from "./API";
+import { ListUsersQuery } from "./API";
 import aws_config from "./aws-exports";
 import "./mockServer";
 
 let apolloClient: ReturnType<typeof createClient>;
 
 /**
- * Updates existing searchUsers field in the cache with incoming data by
+ * Updates existing listUsers field in the cache with incoming data by
  * concatenating new results to existing. This is a very dumb strategy given
  * that it is good enough fot the current UI requirement, but could get
  * improved if needed by leveraging cursors in `nextToken`
@@ -23,7 +23,7 @@ let apolloClient: ReturnType<typeof createClient>;
  * @param incoming
  */
 const mergeListUsersQuery: FieldMergeFunction<
-  Partial<SearchUsersQuery["searchUsers"]>
+  Partial<ListUsersQuery["listUsers"]>
 > = (existing, incoming) => ({
   ...existing,
   ...incoming,
@@ -57,7 +57,7 @@ const createClient = () =>
       typePolicies: {
         Query: {
           fields: {
-            searchUsers: { keyArgs: ["filter"], merge: mergeListUsersQuery },
+            listUsers: { keyArgs: ["filter"], merge: mergeListUsersQuery },
           },
         },
       },

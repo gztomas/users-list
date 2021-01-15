@@ -1,7 +1,7 @@
 import { graphql, rest, setupWorker } from "msw";
 import {
-  SearchUsersQuery,
-  SearchUsersQueryVariables,
+  ListUsersQuery,
+  ListUsersQueryVariables,
   UpdateUserMutation,
   UpdateUserMutationVariables,
 } from "./API";
@@ -35,16 +35,15 @@ const users = Array.from({ length: 15 }, (_, i) => ({
  * Mock API for functional tests
  */
 const handlers = [
-  graphql.query<SearchUsersQuery, SearchUsersQueryVariables>(
-    "SearchUsers",
+  graphql.query<ListUsersQuery, ListUsersQueryVariables>(
+    "ListUsers",
     (req, res, ctx) =>
       res(
         ctx.data({
-          searchUsers: {
+          listUsers: {
             items: users.slice(0, req.variables.limit ?? 100),
             nextToken: "0",
-            total: users.length,
-            __typename: "SearchableUserConnection",
+            __typename: "ModelUserConnection",
           },
         })
       )
